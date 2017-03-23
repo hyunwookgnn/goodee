@@ -9,7 +9,7 @@
   </select>
   
   <select id="selectList" resultType="hashmap">
-	select it.itemno as "no", it.title as "title", it.artist as "artist", im.url as "img" ,it.price as "price" from item it inner join image im on it.itemno = im.itemno where it.itemno between 1 and 10 order by it.itemno asc
+	select it.itemno as "no", it.title as "title", it.artist as "artist", im.url as "img" ,it.price as "price", to_char(it.ldate,'YYYYMMDD') as "ldate" from item it inner join image im on it.itemno = im.itemno where it.itemno between 1 and 10 order by it.itemno asc
   </select>
   
   <insert id="insertTemp" parameterType="hashmap">

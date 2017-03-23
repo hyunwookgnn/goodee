@@ -157,6 +157,12 @@
             cursor: pointer;
         }
 </style>
+<script type="text/javascript">
+	function buy(no) {
+		document.getElementById("list_send_no").value = no;
+		document.getElementById("form").submit();
+	}
+</script>
 </head>
 <body>
 	<div class="wrap">
@@ -183,7 +189,7 @@
 		                        <input type="checkbox" class="checkbox">
 		                    </div>
 		                    <div class="num">
-		                        <p><%=list.get(i).get("no") %></p>
+		                        <p><%=i+1 %></p>
 		                    </div>
 		                    <div class="album_img">
 		                        <img src="<%=list.get(i).get("img") %>">
@@ -193,12 +199,16 @@
 		                        <p><%=list.get(i).get("artist") %> / <%=list.get(i).get("price") %>원</p>
 		                    </div>
 		                    <div class="buy">
-		                        <button>구매</button>
+		                        <button onclick="buy('<%=list.get(i).get("no")%>');">구매</button>
 		                        <button>장바구니</button>
+		                        <form action="/MySite/buy.jsp" methoed="post" id="form">
+		                        	<input type="hidden" id="list_send_no" name="list_send_no">
+		                        </form>
 		                </div>            		
             		<%
             	}
-            	System.out.println(session.getAttribute("memNo"));
+            	//System.out.println(session.getAttribute("memNo"));
+            	session.setAttribute("list", list);
             %>
             
                 
