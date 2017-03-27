@@ -1,15 +1,15 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
-<style>
-	   .wrap{
+<style type="text/css">
+	 .wrap{
             position: relative;
             max-width: 1000px;
             height: 100%;
@@ -88,11 +88,16 @@
         .info_section button{
             background-color: dodgerblue;
             border:0;
-            width: 0%;
+            width: 40%;
             height: 15%;
             font-size: 20px;
             color: white;
-        } 
+            cursor: pointer;
+        }
+        input .detail{
+            border: 1px solid;
+            border-color: dodgerblue;
+        }
         .option button{
 	        background-color: white;
 	        border:1px solid;
@@ -105,27 +110,22 @@
 	     .option{
 	         margin: 0 10%;
 	     }
-	     .center_bottom p{
-            margin: 5%;
-        }
-        #charge{
-            margin:2% 0 2% 35%;
-            background-color: dodgerblue;
-            border:0;
-            width: 10%;
-            height: 22px;
-            cursor: pointer;
-            color: white;
-        }
-        input .buy_input{
-            border: 1px solid;
-           
-        }
 </style>
 <script type="text/javascript">
 function search(){
 	document.getElementById("sendSearch").value = document.getElementById("searchText").value;
 	document.getElementById("searchForm").submit();
+}
+
+function insertCart(memNo, itemNo){
+	document.getElementById("cartMemNo").value = memNo;
+	document.getElementById("cartItemNo").value = itemNo;
+	document.getElementById("cartCount").value = document.getElementById("count").value;
+	document.getElementById("cartForm").submit();
+}
+function buy(no) {
+	document.getElementById("list_send_no").value = no;
+	document.getElementById("form").submit();
 }
 function goCart(memberNo){
 	document.getElementById("send_cart_memNo").value = memberNo;
@@ -134,16 +134,18 @@ function goCart(memberNo){
 </script>
 </head>
 <body>
-		<%!
+
+<%!
 			List<HashMap<String,Object>> list;
 		%>
 		<%
-			int index = Integer.parseInt(request.getParameter("list_send_no"));
+			int index = Integer.parseInt(request.getParameter("list_detail_no"));
+			int itemNo = Integer.parseInt(request.getParameter("list_item_no"));
 			list = new ArrayList<HashMap<String,Object>>();
 			list = (List<HashMap<String,Object>>)session.getAttribute("list");
 			
 		%>
-	        <div class="wrap">
+	 <div class="wrap">
             
             <div class="logo">
                 <h1>Logo</h1>
@@ -154,13 +156,12 @@ function goCart(memberNo){
             	</form>
             </div>
             <div class="option">
-                <button onclick="goCart('<%=session.getAttribute("memNo")%>');">¿ÂπŸ±∏¥œ</button>
-                <button>¡÷πÆ≥ªø™</button>
+                <button onclick="goCart('<%=session.getAttribute("memNo")%>');">Ïû•Î∞îÍµ¨Îãà</button>
+                <button>Ï£ºÎ¨∏ÎÇ¥Ïó≠</button>
                 <form action="/MySite/myServlet" id="send_cart_form">
                 	<input type="hidden" id="send_cart_memNo" name="send_cart_memNo">
                 </form>
             </div>
-           
               
             <div class="center">
                 <div class="center_top">
@@ -169,27 +170,29 @@ function goCart(memberNo){
                     </div>
                     <div class="info_section">
                         <h1><%=list.get(index).get("title")%></h1>
-                        <p> æ∆∆ºΩ∫∆Æ : <%=list.get(index).get("artist")%></p>
-                        <p> πﬂ∏≈¿œ : <%=list.get(index).get("ldate")%></p>
-                        <p> ∞°∞› : <%=list.get(index).get("price")%>ø¯</p>
-<!--                         <p> ºˆ∑Æ : ∞≥</p> -->
-                      
+                        <p> ÏïÑÌã∞Ïä§Ìä∏ : <%=list.get(index).get("artist")%></p>
+                        <p> Î∞úÎß§Ïùº : <%=list.get(index).get("ldate")%></p>
+                        <p> Í∞ÄÍ≤© : <%=list.get(index).get("price")%>Ïõê</p>
+                        <p>ÏàòÎüâ : <input type="number" name="count" id="count" class="detail"> </p>
+                        <button onclick="insertCart('<%=session.getAttribute("memNo")%>','<%=itemNo%>');">Ïû•Î∞îÍµ¨Îãà</button>
+                        <button onclick="buy('<%=index%>');">Î∞îÎ°úÍµ¨Îß§</button>
+                        <form action="/MySite/buy.jsp" methoed="post" id="form">
+                        	<input type="hidden" id="list_send_no" name="list_send_no">
+                        </form>
+                        <form action="/MySite/myServlet" id="cartForm">
+                        	<input type="hidden" id="cartMemNo" name="cartMemNo">
+                        	<input type="hidden" id="cartItemNo" name="cartItemNo">
+                        	<input type="hidden" id="cartCount" name="cartCount">
+                        	<input type="hidden" name="insert">
+                        </form>
+                        
                     </div>
                 </div>
-                
                 <div class="center_bottom">
-                    <h2 style="margin:5%;">¡÷πÆ ¡§∫∏</h2>
-                    <p>¿Ã∏ß : <input type="text" name="nm" id="nm"><br><br>
-                       ¡÷º“ : <input type="text" name="addr" id="addr" size="80px"><br><br>
-                        ¿Ã∏ﬁ¿œ : <input type="text" name="mail" id="mail" size="40px"><br><br>
-                        ¿¸»≠π¯»£ : <input type="text" name="tel" id="tel" size="40px"><br><br>
-                    </p>
-                    <h2 style="margin:5%;">∞·¡¶ ≥ªøÎ</h2>
-                    <p>√— ∞·¡¶ ±›æ◊ :  <input type="text" class="buy_input" name="cash" id="cash" size="30px" readonly> ø¯<button id="charge">∞·¡¶«œ±‚</button>
-                    </p>
+                    <h1 style="margin:5%;">Ïï®Î≤î ÏÜåÍ∞ú</h1>
+                    <p style="margin:5%;"><%=list.get(index).get("content")%> </p>
                 </div>
             </div>
         </div>
-     
 </body>
 </html>

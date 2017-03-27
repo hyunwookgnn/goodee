@@ -1,6 +1,6 @@
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.java.Dao"%>
 <%@page import="java.util.HashMap"%>
+<%@page import="com.java.Dao"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
@@ -89,11 +89,11 @@
         .info_section button{
             background-color: dodgerblue;
             border:0;
-            width: 40%;
+            width: 30%;
             height: 15%;
             font-size: 20px;
             color: white;
-        } 
+        }
          .center_box{
             width: 800px;
             height: 160px;
@@ -155,7 +155,7 @@
             font-size: 13px;
             color: dodgerblue;
             cursor: pointer;
-        }
+        } 
         .option button{
 	        background-color: white;
 	        border:1px solid;
@@ -169,27 +169,15 @@
 	         margin: 0 10%;
 	     }
 </style>
+
 <script type="text/javascript">
-	function buy(no) {
-		document.getElementById("list_send_no").value = no;
-		document.getElementById("form").submit();
+	function buy(cartNo) {
+		document.getElementById("send_cartNo").value = cartNo;
+		document.getElementById("buyForm").submit();
 	}
-	
-	function search(){
-		document.getElementById("sendSearch").value = document.getElementById("searchText").value;
-		document.getElementById("searchForm").submit();
-	}
-	
-	function goDetail(no,itemNo){
-		document.getElementById("list_detail_no").value = no;
-		document.getElementById("list_item_no").value = itemNo;
-		document.getElementById("detailForm").submit();
-	}
-	function insertCart(memNo, itemNo){
-		document.getElementById("cartMemNo").value = memNo;
-		document.getElementById("cartItemNo").value = itemNo;
-		document.getElementById("cartCount").value = 1;
-		document.getElementById("cartForm").submit();
+	function cartDelete(cartNo){
+		document.getElementById("delete_cartNo").value = cartNo;
+		document.getElementById("deleteForm").submit();
 	}
 	function goCart(memberNo){
 		document.getElementById("send_cart_memNo").value = memberNo;
@@ -197,16 +185,14 @@
 	}
 </script>
 </head>
+
 <body>
-	<div class="wrap">
+<div class="wrap">
             
             <div class="logo">
                 <h1>Logo</h1>
-                <form action="/MySite/myServlet" id="searchForm">
-                	<input type="text" id="searchText">
-                	<button onclick="search();">Search</button>
-                	<input type="hidden" id="sendSearch" name="sendSearch">
-            	</form>
+                <input type="text">
+                <button>Search</button>
             </div>
             <div class="option">
                 <button onclick="goCart('<%=session.getAttribute("memNo")%>');">장바구니</button>
@@ -215,65 +201,56 @@
                 	<input type="hidden" id="send_cart_memNo" name="send_cart_memNo">
                 </form>
             </div>
-            <%!
+           
+           <%!
             	List<HashMap<String,Object>> list;
             	Dao dao;
-            %>
+           %>
+           
            <div class="center">
-            <%
+           
+           <%
             	dao = new Dao();
             	list = new ArrayList<HashMap<String,Object>>();
-//     			int itemNo = Integer.parseInt(request.getParameter("list_item_no"));
-            	if(session.getAttribute("searchList") != null){
-            		list = (List<HashMap<String,Object>>)session.getAttribute("searchList");
-            	}else{
-            		list = dao.selectList();
-            	}
+            	list = (List<HashMap<String,Object>>)session.getAttribute("selectCart");
             	
-            
             	for(int i = 0;i<list.size(); i++){
-            		%>
-						<div class="center_box">
-		                    <div class="check">
-		                        <input type="checkbox" class="checkbox">
-		                    </div>
-		                    <div class="num">
-		                        <p><%=i+1 %></p>
-		                    </div>
-		                    <div class="album_img">
-		                        <img src="<%=list.get(i).get("img") %>" onclick="goDetail('<%=i%>','<%=list.get(i).get("no")%>');">
-		                    	<form action="/MySite/detail.jsp" methoed="post" id="detailForm">
-		                        	<input type="hidden" id="list_detail_no" name="list_detail_no">
-		                        	<input type="hidden" id="list_item_no" name="list_item_no">
-		                        </form>
-		                    </div>
-		                    <div class="info">
-		                        <p style="margin-top:50px"><%=list.get(i).get("title") %></p> 
-		                        <p><%=list.get(i).get("artist") %> / <%=list.get(i).get("price") %>원</p>
-		                    </div>
-		                    <div class="buy">
-		                        <button onclick="buy('<%=i%>');">구매</button>
-		                        <button onclick="insertCart('<%=session.getAttribute("memNo")%>','<%=list.get(i).get("no")%>');">장바구니</button>
-		                        <form action="/MySite/buy.jsp" methoed="post" id="form">
-		                        	<input type="hidden" id="list_send_no" name="list_send_no">
-		                        </form>
-		                        <form action="/MySite/myServlet" id="cartForm">
-		                        	<input type="hidden" id="cartMemNo" name="cartMemNo">
-		                        	<input type="hidden" id="cartItemNo" name="cartItemNo">
-		                        	<input type="hidden" id="cartCount" name="cartCount">
-		                        	<input type="hidden" name="insert">
-		                        </form>
-		                </div>            		
-            		<%
-            	}
-            	//System.out.println(session.getAttribute("memNo"));
-            	session.setAttribute("list", list);
-            %>
+           %>
             
-                
+                <div class="center_box">
+                    <div class="check">
+                        <input type="checkbox" class="checkbox">
+                    </div>
+                    <div class="num">
+                        <p><%=i+1 %></p>
+                    </div>
+                    <div class="album_img">
+                        <img src="<%=list.get(i).get("img") %>" onclick="goDetail('<%=i%>','<%=list.get(i).get("no")%>');">
+                    	<form action="/MySite/detail.jsp" methoed="post" id="detailForm">
+                        	<input type="hidden" id="list_detail_no" name="list_detail_no">
+                        	<input type="hidden" id="list_item_no" name="list_item_no">
+                        </form>
+                    </div>
+                    <div class="info">
+                        <p style="margin-top:50px"><%=list.get(i).get("artist") %>, <%=list.get(i).get("title") %></p>  
+                        <p><%=list.get(i).get("price") %>원 / <%=list.get(i).get("count") %>개 / <%=list.get(i).get("totalPrice")%>원</p>
+                    </div>
+                    <div class="buy">
+                        <button onclick="buy('<%=list.get(i).get("cartNo")%>')">구매</button>
+                        <button onclick="cartDelete('<%=list.get(i).get("cartNo")%>');">삭제</button>
+                        <form action="/MySite/buy.jsp" methoed="post" id="buyForm">
+                        	<input type="hidden" id="send_cartNo" name="send_cartNo">
+                        </form>
+                        <form action="/MySite/myServlet" id="deleteForm">
+                        	<input type="hidden" id="delete_cartNo" name = "delete_cartNo">
+                        </form>
+                    </div>
                 </div>
-            
+                <%
+                }
+               %>
             </div>
-        </div>
+    </div>
+   
 </body>
 </html>

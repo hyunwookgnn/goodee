@@ -9,11 +9,23 @@
   </select>
   
   <select id="selectList" resultType="hashmap">
-	select it.itemno as "no", it.title as "title", it.artist as "artist", im.url as "img" ,it.price as "price", to_char(it.ldate,'YYYYMMDD') as "ldate" from item it inner join image im on it.itemno = im.itemno where it.itemno between 1 and 10 order by it.itemno asc
+	select it.content as "content", it.itemno as "no", it.title as "title", it.artist as "artist", im.url as "img" ,it.price as "price", to_char(it.ldate,'YYYYMMDD') as "ldate" from item it inner join image im on it.itemno = im.itemno where it.itemno between 1 and 5 order by it.itemno asc
+  </select>
+  
+   <select id="selectCart" resultType="hashmap" parameterType="int">
+	SELECT C.CARTNO AS "cartNo", C.MEMNO AS "memNo", C.ITEMNO AS "itemNo", C.COUNT AS "count", IT.PRICE AS "price", C.COUNT * IT.PRICE AS "totalPrice", IT.ARTIST AS "artist", IT.TITLE AS "title",IM.URL AS "img" FROM CART C INNER JOIN ITEM IT ON C.ITEMNO = IT.ITEMNO INNER JOIN IMAGE IM ON IT.ITEMNO = IM.ITEMNO WHERE MEMNO = #{searchNum}
   </select>
   
   <insert id="insertTemp" parameterType="hashmap">
   	INSERT INTO TEMP VALUES (#{no},#{name},#{desc},#{delYn})
+  </insert>
+  
+  <insert id="insertInfo" parameterType="hashmap">
+  	INSERT INTO MEMBER VALUES (SEQ_MEM.NEXTVAL,#{name},#{id},#{pw},#{addr},#{tel})
+  </insert>
+  
+  <insert id="insertCart" parameterType="hashmap">
+  	INSERT INTO CART VALUES (#{memNo},#{itemNo},#{count},SEQ_CART.NEXTVAL)
   </insert>
   
   <update id="updateTemp" parameterType="hashmap">
@@ -21,6 +33,15 @@
   </update>
   
   <delete id="deleteTemp" parameterType="hashmap">
-  	DELETE FROM TEMP WHERE TEMP_NO=#{num}
+  	DELETE FROM TEMP WHERE CARTNO=#{num}
   </delete>
+  
+  <delete id="deleteCart" parameterType="int">
+  	DELETE FROM CART WHERE CARTNO=#{deleteNo}
+  </delete>
+  
+  <select id="searchList" resultType="hashmap" parameterType="String">
+	select it.content as "content", it.itemno as "no", it.title as "title", it.artist as "artist",im.url as "img" ,it.price as "price", to_char(it.ldate,'YYYYMMDD') as "ldate" from item it inner join image im on it.itemno = im.itemno where it.title like '%'||#{searchText}||'%' or it.artist like '%'||#{searchText}||'%' and it.itemno between 1 and 5 order by it.itemno asc
+  </select>
+  
 </mapper>

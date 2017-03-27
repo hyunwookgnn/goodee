@@ -68,6 +68,10 @@
     		document.getElementById("loginForm").submit();
     	}
     	
+    	function goMembership(){
+    		location.href="/MySite/membership.jsp";
+    	}
+    	
 //     	function onload(){
 <%--     		if(<%=flag%> == 0){ --%>
 //     			alert("아이디 비밀번호가 잘못되었습니다!!")
@@ -75,7 +79,7 @@
 //     	}
     </script>
 </head>
-<body onload="onload();">
+<body>
         <div class="wrap">
             <h1>Title</h1>
             
@@ -85,11 +89,11 @@
                 <input type="password" placeholder="비밀번호를 입력하세요" id="pw">
                 <input type="hidden" id="sendId" name="sendId">
                 <input type="hidden" id="sendPw" name="sendPw">
-                <div class="btn_grp">
-                    <button>회원가입</button>
+            </form>
+            <div class="btn_grp">
+                    <button onclick="goMembership();">회원가입</button>
                     <button onclick="login();">로그인</button>
-                </div>
-            </form>    
+            </div>    
                 <p>아이디/비밀번호 찾기</p>
             </div>
         
