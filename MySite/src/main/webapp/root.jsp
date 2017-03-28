@@ -73,6 +73,18 @@
             margin-right: auto;
             margin-bottom: 100px;
         }
+        .option button{
+	        background-color: white;
+	        border:1px solid;
+	        width: 32%;
+	        height: 20%;
+	        font-size: 13px;
+	        color: dodgerblue;
+	        cursor: pointer;
+	     }
+	     .option{
+	         margin: 0 10%;
+	     }
 </style>
 <script type="text/javascript">
 	function insert() {
@@ -85,6 +97,9 @@
 		document.getElementById("item_insert_index").value = 1;
 		document.getElementById("insertForm").submit();
 	}
+	function logout(i){
+		location.href = "/MySite/myServlet?logout="+i;
+	}
 </script>
 </head>
 <body>
@@ -95,7 +110,11 @@
                 <input type="text">
                 <button>Search</button>
             </div>
-            
+            <div class="option">
+                <button>장바구니</button>
+                <button>주문내역</button>
+                <button onclick="logout(1);">로그아웃</button>
+            </div>
             <div class="center">
                타이틀: <input type="text" id="insertTitle" name="insertTitle" class="insertInput"><br><br>
                내용:   <input type="text" id="insertContent" name="insertContent" class="insertInput"><br><br>

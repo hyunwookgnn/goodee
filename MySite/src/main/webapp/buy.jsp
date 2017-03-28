@@ -171,18 +171,18 @@ function goOrder(memNo){
 			int memNo = Integer.parseInt(session.getAttribute("memNo").toString());
 			if(Integer.parseInt(request.getParameter("go_buy_index")) == 1){
 				cnt = 1;
-				index = Integer.parseInt(request.getParameter("list_send_no"))+1;
-				itNo = Integer.parseInt(request.getParameter("list_send_no"));
+				index = Integer.parseInt(request.getParameter("list_send_no").toString())-1;
+				itNo = Integer.parseInt(request.getParameter("list_send_no").toString());
 				list = (List<HashMap<String,Object>>)session.getAttribute("list");
 				totalPrice = Integer.parseInt(list.get(index).get("price").toString());
 			}else if(Integer.parseInt(request.getParameter("go_buy_index")) == 2){
 				list = (List<HashMap<String,Object>>)session.getAttribute("selectCart");
-				itNo = Integer.parseInt(request.getParameter("cart_go_buy_itNo"));
-				index = Integer.parseInt(request.getParameter("send_cartNo"));
+				itNo = Integer.parseInt(request.getParameter("cart_go_buy_itNo").toString());
+				index = Integer.parseInt(request.getParameter("send_cartNo").toString());
 				cnt = Integer.parseInt(list.get(index).get("count").toString());
 				totalPrice = cnt * Integer.parseInt(list.get(index).get("price").toString());
 			}else if(Integer.parseInt(request.getParameter("go_buy_index")) == 3){
-				index = Integer.parseInt(request.getParameter("list_send_no"));
+				index = Integer.parseInt(request.getParameter("detail_send_no"));
 				itNo = Integer.parseInt(request.getParameter("go_buy_itNo"));
 				list = (List<HashMap<String,Object>>)session.getAttribute("list");
 				cnt = Integer.parseInt(request.getParameter("go_buy_count"));

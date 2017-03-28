@@ -125,7 +125,7 @@ function insertCart(memNo, itemNo){
 	document.getElementById("cartForm").submit();
 }
 function buy(no,itNo) {
-	document.getElementById("list_send_no").value = no;
+	document.getElementById("detail_send_no").value = no;
 	document.getElementById("go_buy_index").value = 3;
 	document.getElementById("go_buy_count").value = document.getElementById("count").value;
 	document.getElementById("go_buy_itNo").value = itNo;
@@ -195,7 +195,7 @@ function goOrder(memNo){
                         <button onclick="insertCart('<%=session.getAttribute("memNo")%>','<%=itemNo%>');">장바구니</button>
                         <button onclick="buy('<%=index%>','<%=itemNo%>');">바로구매</button>
                         <form action="/MySite/buy.jsp" methoed="post" id="form">
-                        	<input type="hidden" id="list_send_no" name="list_send_no">
+                        	<input type="hidden" id="detail_send_no" name="detail_send_no">
                         	<input type="hidden" id="go_buy_index" name="go_buy_index">
                         	<input type="hidden" id="go_buy_count" name="go_buy_count">
                         	<input type="hidden" id="go_buy_itNo" name="go_buy_itNo">

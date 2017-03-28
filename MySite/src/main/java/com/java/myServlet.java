@@ -68,7 +68,7 @@ public class myServlet extends HttpServlet {
 		}else if(request.getParameter("send_cart_memNo") != null){
 			list = dao.selectCart(Integer.parseInt(request.getParameter("send_cart_memNo").toString()));
 			session.setAttribute("selectCart", list);
-			url = "/MySite/cart.jsp?key=refresh";
+			url = "/MySite/cart.jsp";
 		}else if(request.getParameter("insertInfo")!= null){
 			
 			map.put("name",request.getParameter("submit_name"));
@@ -82,7 +82,7 @@ public class myServlet extends HttpServlet {
 			map.clear();
 		}else if(request.getParameter("delete_cartNo") != null){
 			dao.deleteCart(Integer.parseInt(request.getParameter("delete_cartNo")));
-			url = "/MySite/cart.jsp";
+			url = "/MySite/cart.jsp?key=refresh";
 		}else if(request.getParameter("checkId") != null){
 			list = dao.idCheck();
 			String str = request.getParameter("checkId").toString();

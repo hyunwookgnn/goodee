@@ -243,7 +243,12 @@
            <%
             	dao = new Dao();
             	list = new ArrayList<HashMap<String,Object>>();
-            	list = (List<HashMap<String,Object>>)session.getAttribute("selectCart");
+            	//if(request.getParameter("key").toString().equals("refresh")){
+            		list = dao.selectCart(Integer.parseInt(session.getAttribute("memNo").toString()));
+            	//}else{
+            	//	list = (List<HashMap<String,Object>>)session.getAttribute("selectCart");	
+            	//}
+            	
             	
             	for(int i = 0;i<list.size(); i++){
            %>
