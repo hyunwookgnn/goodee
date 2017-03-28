@@ -2,12 +2,12 @@
 <%@page import="com.java.Dao"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style>
 .wrap{
@@ -29,6 +29,7 @@
             width: 120px;
             font-size:50px;
             float: left;
+            cursor: pointer;
         }
         .logo input{
             position: absolute;
@@ -159,7 +160,7 @@
         .option button{
 	        background-color: white;
 	        border:1px solid;
-	        width: 49%;
+	        width: 32%;
 	        height: 20%;
 	        font-size: 13px;
 	        color: dodgerblue;
@@ -172,6 +173,7 @@
 <script type="text/javascript">
 	function buy(no) {
 		document.getElementById("list_send_no").value = no;
+		document.getElementById("go_buy_index").value = 1;
 		document.getElementById("form").submit();
 	}
 	
@@ -195,24 +197,39 @@
 		document.getElementById("send_cart_memNo").value = memberNo;
 		document.getElementById("send_cart_form").submit();
 	}
+	function goList(){
+		location.href = "/MySite/list.jsp";
+	}
+	function logout(i){
+		location.href = "/MySite/myServlet?logout="+i;
+	}
+	function goOrder(memNo){
+		document.getElementById("send_order_memNo").value = memNo;
+		document.getElementById("send_order_form").submit();
+	}
 </script>
 </head>
 <body>
 	<div class="wrap">
             
             <div class="logo">
-                <h1>Logo</h1>
+                <h1 onclick="goList();">Logo</h1>
+                <button onclick="search();">Search</button>
                 <form action="/MySite/myServlet" id="searchForm">
                 	<input type="text" id="searchText">
-                	<button onclick="search();">Search</button>
+                	
                 	<input type="hidden" id="sendSearch" name="sendSearch">
             	</form>
             </div>
             <div class="option">
-                <button onclick="goCart('<%=session.getAttribute("memNo")%>');">¿ÂπŸ±∏¥œ</button>
-                <button>¡÷πÆ≥ªø™</button>
+                <button onclick="goCart('<%=session.getAttribute("memNo")%>');">Ïû•Î∞îÍµ¨Îãà</button>
+                <button onclick="goOrder('<%=session.getAttribute("memNo")%>');">Ï£ºÎ¨∏ÎÇ¥Ïó≠</button>
+                <button onclick="logout(1);">Î°úÍ∑∏ÏïÑÏõÉ</button>
                 <form action="/MySite/myServlet" id="send_cart_form">
                 	<input type="hidden" id="send_cart_memNo" name="send_cart_memNo">
+                </form>
+                <form action="/MySite/myServlet" id="send_order_form">
+                	<input type="hidden" id="send_order_memNo" name="send_order_memNo">
                 </form>
             </div>
             <%!
@@ -249,14 +266,17 @@
 		                    </div>
 		                    <div class="info">
 		                        <p style="margin-top:50px"><%=list.get(i).get("title") %></p> 
-		                        <p><%=list.get(i).get("artist") %> / <%=list.get(i).get("price") %>ø¯</p>
+		                        <p><%=list.get(i).get("artist") %> / <%=list.get(i).get("price") %>Ïõê</p>
 		                    </div>
 		                    <div class="buy">
-		                        <button onclick="buy('<%=i%>');">±∏∏≈</button>
-		                        <button onclick="insertCart('<%=session.getAttribute("memNo")%>','<%=list.get(i).get("no")%>');">¿ÂπŸ±∏¥œ</button>
+		                        <button onclick="buy('<%=list.get(i).get("no")%>');">Íµ¨Îß§</button>
+		                        <button onclick="insertCart('<%=session.getAttribute("memNo")%>','<%=list.get(i).get("no")%>');">Ïû•Î∞îÍµ¨Îãà</button>
+		                        
 		                        <form action="/MySite/buy.jsp" methoed="post" id="form">
 		                        	<input type="hidden" id="list_send_no" name="list_send_no">
+		                        	<input type="hidden" id="go_buy_index" name="go_buy_index">
 		                        </form>
+		                        
 		                        <form action="/MySite/myServlet" id="cartForm">
 		                        	<input type="hidden" id="cartMemNo" name="cartMemNo">
 		                        	<input type="hidden" id="cartItemNo" name="cartItemNo">

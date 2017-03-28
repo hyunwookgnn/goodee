@@ -23,9 +23,9 @@ public class myServlet extends HttpServlet {
 		String id = request.getParameter("sendId");
 		String pw = request.getParameter("sendPw");
 		String id_check = request.getParameter("id_check");
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-
+		request.setCharacterEncoding("UTF-8");
+		//request.setContentType("text/html; charset=UTF-8");
+		
 		//String textFlag = "";
 		String url = "";
 		Dao dao = new Dao();
@@ -38,7 +38,12 @@ public class myServlet extends HttpServlet {
 			for(int i = 0; i<list.size(); i++){
 				if(id.equals(list.get(i).get("id").toString()) && pw.equals(list.get(i).get("pw".toString()))){
 					session.setAttribute("memNo", Integer.parseInt(list.get(i).get("no").toString()));
-					url = "/MySite/list.jsp";
+					if(id.equals("root") && pw.equals("1")){
+						url = "/MySite/root.jsp";
+					}else{
+						url = "/MySite/list.jsp";
+					}
+					
 					break;
 				}else
 				{	
@@ -92,6 +97,41 @@ public class myServlet extends HttpServlet {
 					url = "/MySite/membership.jsp";
 				}
 			}
+		}else if(request.getParameter("order_index") != null){
+			
+			map.put("name",request.getParameter("order_name"));
+			map.put("memNo",request.getParameter("order_memNo"));
+			map.put("itNo",request.getParameter("order_itNo"));
+			map.put("addr",request.getParameter("order_addr"));
+			map.put("tel",request.getParameter("order_tel"));
+			map.put("totalPrice",request.getParameter("order_totalPrice"));
+			
+			dao.insertOrder(map);
+			url = "/MySite/finish.jsp";
+			map.clear();
+			
+		}else if(request.getParameter("item_insert_index") != null){
+			map.put("title",request.getParameter("hidden_insertTitle"));
+			map.put("content",request.getParameter("hidden_insertContent"));
+			map.put("ldate",request.getParameter("hidden_insertLdate"));
+			map.put("artist",request.getParameter("hidden_insertArtist"));
+			map.put("price",request.getParameter("hidden_insertPrice"));
+			map.put("url",request.getParameter("hidden_insertUrl"));
+			
+			int ItemNo = dao.setItemNo();
+			map.put("ItemNo",ItemNo);
+			System.out.println(map);
+			dao.insertItem(map);
+			dao.insertImage(map);
+			url = "/MySite/root.jsp";
+			map.clear();
+		}else if(request.getParameter("logout")!= null){
+			session.invalidate();
+			url = "/MySite/index.jsp";
+		}else if(request.getParameter("send_order_memNo") != null){
+			list = dao.selectOrder(Integer.parseInt(request.getParameter("send_order_memNo").toString()));
+			session.setAttribute("selectOrder", list);
+			url = "/MySite/order.jsp";
 		}
 		
 		response.sendRedirect(url);

@@ -93,9 +93,7 @@
             <div class="btn_grp">
                     <button onclick="goMembership();">회원가입</button>
                     <button onclick="login();">로그인</button>
-            </div>    
-                <p>아이디/비밀번호 찾기</p>
-            </div>
+          
         
         </div>
     </body>

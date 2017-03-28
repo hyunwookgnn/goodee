@@ -6,7 +6,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
 	 .wrap{
@@ -28,6 +28,7 @@
             width: 120px;
             font-size:50px;
             float: left;
+            cursor: pointer;
         }
         .logo input{
             position: absolute;
@@ -101,7 +102,7 @@
         .option button{
 	        background-color: white;
 	        border:1px solid;
-	        width: 49%;
+	        width: 32%;
 	        height: 20%;
 	        font-size: 13px;
 	        color: dodgerblue;
@@ -123,13 +124,26 @@ function insertCart(memNo, itemNo){
 	document.getElementById("cartCount").value = document.getElementById("count").value;
 	document.getElementById("cartForm").submit();
 }
-function buy(no) {
+function buy(no,itNo) {
 	document.getElementById("list_send_no").value = no;
+	document.getElementById("go_buy_index").value = 3;
+	document.getElementById("go_buy_count").value = document.getElementById("count").value;
+	document.getElementById("go_buy_itNo").value = itNo;
 	document.getElementById("form").submit();
 }
 function goCart(memberNo){
 	document.getElementById("send_cart_memNo").value = memberNo;
 	document.getElementById("send_cart_form").submit();
+}
+function goList(){
+	location.href = "/MySite/list.jsp";
+}
+function logout(i){
+	location.href = "/MySite/myServlet?logout="+i;
+}
+function goOrder(memNo){
+	document.getElementById("send_order_memNo").value = memNo;
+	document.getElementById("send_order_form").submit();
 }
 </script>
 </head>
@@ -148,7 +162,7 @@ function goCart(memberNo){
 	 <div class="wrap">
             
             <div class="logo">
-                <h1>Logo</h1>
+                <h1 onclick="goList();">Logo</h1>
                 <form action="/MySite/myServlet" id="searchForm">
                 	<input type="text" id="searchText">
                 	<button onclick="search();">Search</button>
@@ -157,9 +171,13 @@ function goCart(memberNo){
             </div>
             <div class="option">
                 <button onclick="goCart('<%=session.getAttribute("memNo")%>');">장바구니</button>
-                <button>주문내역</button>
+                <button onclick="goOrder('<%=session.getAttribute("memNo")%>');">주문내역</button>
+                <button onclick="logout(1);">로그아웃</button>
                 <form action="/MySite/myServlet" id="send_cart_form">
                 	<input type="hidden" id="send_cart_memNo" name="send_cart_memNo">
+                </form>
+                <form action="/MySite/myServlet" id="send_order_form">
+                	<input type="hidden" id="send_order_memNo" name="send_order_memNo">
                 </form>
             </div>
               
@@ -175,9 +193,12 @@ function goCart(memberNo){
                         <p> 가격 : <%=list.get(index).get("price")%>원</p>
                         <p>수량 : <input type="number" name="count" id="count" class="detail"> </p>
                         <button onclick="insertCart('<%=session.getAttribute("memNo")%>','<%=itemNo%>');">장바구니</button>
-                        <button onclick="buy('<%=index%>');">바로구매</button>
+                        <button onclick="buy('<%=index%>','<%=itemNo%>');">바로구매</button>
                         <form action="/MySite/buy.jsp" methoed="post" id="form">
                         	<input type="hidden" id="list_send_no" name="list_send_no">
+                        	<input type="hidden" id="go_buy_index" name="go_buy_index">
+                        	<input type="hidden" id="go_buy_count" name="go_buy_count">
+                        	<input type="hidden" id="go_buy_itNo" name="go_buy_itNo">
                         </form>
                         <form action="/MySite/myServlet" id="cartForm">
                         	<input type="hidden" id="cartMemNo" name="cartMemNo">

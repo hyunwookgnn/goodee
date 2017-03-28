@@ -1,7 +1,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="com.java.Dao"%>
 <%@page import="java.util.List"%>
+<%@page import="com.java.Dao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -10,7 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style>
-.wrap{
+	.wrap{
             position: relative;
             max-width: 1000px;
             height: 100%;
@@ -172,44 +172,30 @@
 </style>
 
 <script type="text/javascript">
-	function buy(cartNo,itNo) {
-		document.getElementById("send_cartNo").value = cartNo;
-		document.getElementById("go_buy_index").value = 2;
-		document.getElementById("cart_go_buy_itNo").value = itNo;
-		document.getElementById("buyForm").submit();
-	}
-	function cartDelete(cartNo){
-		document.getElementById("delete_cartNo").value = cartNo;
-		document.getElementById("deleteForm").submit();
-	}
-	function goCart(memberNo){
-		document.getElementById("send_cart_memNo").value = memberNo;
-		document.getElementById("send_cart_form").submit();
-	}
-	function goList(){
-		location.href = "/MySite/list.jsp";
-	}
-	function logout(i){
-		location.href = "/MySite/myServlet?logout="+i;
-	}
-	function goOrder(memNo){
-		document.getElementById("send_order_memNo").value = memNo;
-		document.getElementById("send_order_form").submit();
-	}
-	function goDetail(no,itemNo){
-		document.getElementById("list_detail_no").value = no;
-		document.getElementById("list_item_no").value = itemNo;
-		document.getElementById("detailForm").submit();
-	}
-	function search(){
-		document.getElementById("sendSearch").value = document.getElementById("searchText").value;
-		document.getElementById("searchForm").submit();
-	}
+function logout(i){
+	location.href = "/MySite/myServlet?logout="+i;
+}
+function goCart(memberNo){
+	document.getElementById("send_cart_memNo").value = memberNo;
+	document.getElementById("send_cart_form").submit();
+}
+function search(){
+	document.getElementById("sendSearch").value = document.getElementById("searchText").value;
+	document.getElementById("searchForm").submit();
+}
+function goOrder(memNo){
+	document.getElementById("send_order_memNo").value = memNo;
+	document.getElementById("send_order_form").submit();
+}
+function goDetail(no,itemNo){
+	document.getElementById("list_detail_no").value = no;
+	document.getElementById("list_item_no").value = itemNo;
+	document.getElementById("detailForm").submit();
+}
 </script>
 </head>
-
 <body>
-<div class="wrap">
+	<div class="wrap">
             
             <div class="logo">
                 <h1 onclick="goList();">Logo</h1>
@@ -243,7 +229,7 @@
            <%
             	dao = new Dao();
             	list = new ArrayList<HashMap<String,Object>>();
-            	list = (List<HashMap<String,Object>>)session.getAttribute("selectCart");
+            	list = (List<HashMap<String,Object>>)session.getAttribute("selectOrder");
             	
             	for(int i = 0;i<list.size(); i++){
            %>
@@ -264,26 +250,14 @@
                     </div>
                     <div class="info">
                         <p style="margin-top:50px"><%=list.get(i).get("artist") %>, <%=list.get(i).get("title") %></p>  
-                        <p><%=list.get(i).get("price") %>원 / <%=list.get(i).get("count") %>개 / <%=list.get(i).get("totalPrice")%>원</p>
+                        <p> <%=list.get(i).get("totalPrice")%>원</p>
                     </div>
-                    <div class="buy">
-                        <button onclick="buy('<%=i%>','<%=list.get(i).get("itemNo")%>')">구매</button>
-                        <button onclick="cartDelete('<%=list.get(i).get("cartNo")%>');">삭제</button>
-                        <form action="/MySite/buy.jsp" methoed="get" id="buyForm">
-                        	<input type="hidden" id="send_cartNo" name="send_cartNo">
-                        	<input type="hidden" id="go_buy_index" name="go_buy_index">
-                        	<input type="hidden" id="cart_go_buy_itNo" name="cart_go_buy_itNo">
-                        </form>
-                        <form action="/MySite/myServlet" id="deleteForm">
-                        	<input type="hidden" id="delete_cartNo" name = "delete_cartNo">
-                        </form>
-                    </div>
+                   
                 </div>
                 <%
                 }
                %>
             </div>
     </div>
-   
 </body>
 </html>

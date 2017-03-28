@@ -9,15 +9,24 @@
   </select>
   
   <select id="selectList" resultType="hashmap">
-	select it.content as "content", it.itemno as "no", it.title as "title", it.artist as "artist", im.url as "img" ,it.price as "price", to_char(it.ldate,'YYYYMMDD') as "ldate" from item it inner join image im on it.itemno = im.itemno where it.itemno between 1 and 5 order by it.itemno asc
+	select it.content as "content", it.itemno as "no", it.title as "title", it.artist as "artist", im.url as "img" ,it.price as "price", to_char(it.ldate,'YYYYMMDD') as "ldate" from item it inner join image im on it.itemno = im.itemno order by it.itemno asc
   </select>
   
    <select id="selectCart" resultType="hashmap" parameterType="int">
 	SELECT C.CARTNO AS "cartNo", C.MEMNO AS "memNo", C.ITEMNO AS "itemNo", C.COUNT AS "count", IT.PRICE AS "price", C.COUNT * IT.PRICE AS "totalPrice", IT.ARTIST AS "artist", IT.TITLE AS "title",IM.URL AS "img" FROM CART C INNER JOIN ITEM IT ON C.ITEMNO = IT.ITEMNO INNER JOIN IMAGE IM ON IT.ITEMNO = IM.ITEMNO WHERE MEMNO = #{searchNum}
   </select>
   
-  <insert id="insertTemp" parameterType="hashmap">
-  	INSERT INTO TEMP VALUES (#{no},#{name},#{desc},#{delYn})
+  <select id="selectOrder" resultType="hashmap" parameterType="int">
+  	SELECT O.ORDERNO AS "orderNo",O.ITEMNO AS "itemNo", O.MEMNO AS "memNo", IT.PRICE AS "price", O.TOTALPRICE AS "totalPrice", IT.ARTIST AS "artist", IT.TITLE AS "title",IM.URL AS "img"
+	FROM ORDER_LIST O INNER JOIN ITEM IT 
+	ON O.ITEMNO = IT.ITEMNO 
+	INNER JOIN IMAGE IM 
+	ON IT.ITEMNO = IM.ITEMNO
+	WHERE MEMNO = #{searchNum}
+  </select>
+ 
+  <insert id="insertOrder" parameterType="hashmap">
+  	INSERT INTO ORDER_LIST VALUES (SEQ_ORDER.NEXTVAL,#{memNo},#{itNo},#{name},#{addr},#{tel},#{totalPrice})
   </insert>
   
   <insert id="insertInfo" parameterType="hashmap">
@@ -28,20 +37,28 @@
   	INSERT INTO CART VALUES (#{memNo},#{itemNo},#{count},SEQ_CART.NEXTVAL)
   </insert>
   
-  <update id="updateTemp" parameterType="hashmap">
-  	UPDATE TEMP SET TEMP_NO=#{no}, TEMP_NAME=#{name}, TEMP_DESC=#{desc}, DEL_YN=#{delYn} WHERE TEMP_NO=#{rowNum}
-  </update>
+  <select id="selectItemNo" resultType="int">
+	SELECT SEQ_ITEM.NEXTVAL AS ITEMNO FROM DUAL 
+  </select>
   
-  <delete id="deleteTemp" parameterType="hashmap">
-  	DELETE FROM TEMP WHERE CARTNO=#{num}
-  </delete>
+  <insert id="insertItem" parameterType="hashmap">
+  	INSERT INTO ITEM VALUES (#{ItemNo},#{title},#{content},#{ldate},#{artist},#{price})
+  </insert>
   
+  <insert id="insertImage" parameterType="hashmap">
+  	INSERT INTO IMAGE VALUES (SEQ_IMG.NEXTVAL,#{url},#{ItemNo})
+  </insert>
+  
+<!--   <update id="updateTemp" parameterType="hashmap"> -->
+<!--   	UPDATE TEMP SET TEMP_NO=#{no}, TEMP_NAME=#{name}, TEMP_DESC=#{desc}, DEL_YN=#{delYn} WHERE TEMP_NO=#{rowNum} -->
+<!--   </update> -->
+ 
   <delete id="deleteCart" parameterType="int">
   	DELETE FROM CART WHERE CARTNO=#{deleteNo}
   </delete>
   
   <select id="searchList" resultType="hashmap" parameterType="String">
-	select it.content as "content", it.itemno as "no", it.title as "title", it.artist as "artist",im.url as "img" ,it.price as "price", to_char(it.ldate,'YYYYMMDD') as "ldate" from item it inner join image im on it.itemno = im.itemno where it.title like '%'||#{searchText}||'%' or it.artist like '%'||#{searchText}||'%' and it.itemno between 1 and 5 order by it.itemno asc
+	select it.content as "content", it.itemno as "no", it.title as "title", it.artist as "artist",im.url as "img" ,it.price as "price", to_char(it.ldate,'YYYYMMDD') as "ldate" from item it inner join image im on it.itemno = im.itemno where it.title like '%'||#{searchText}||'%' or it.artist like '%'||#{searchText}||'%' or it.title like UPPER('%'||#{searchText}||'%') or it.artist like UPPER('%'||#{searchText}||'%') order by it.itemno asc
   </select>
   
 </mapper>
