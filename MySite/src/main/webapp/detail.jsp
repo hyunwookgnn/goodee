@@ -136,7 +136,7 @@ function goCart(memberNo){
 	document.getElementById("send_cart_form").submit();
 }
 function goList(){
-	location.href = "/MySite/list.jsp";
+	location.href = "/MySite/list.jsp?key=refresh";
 }
 function logout(i){
 	location.href = "/MySite/myServlet?logout="+i;

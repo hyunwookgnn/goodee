@@ -192,6 +192,9 @@ function goDetail(no,itemNo){
 	document.getElementById("list_item_no").value = itemNo;
 	document.getElementById("detailForm").submit();
 }
+function goList(){
+	location.href = "/MySite/list.jsp?key=refresh";
+}
 </script>
 </head>
 <body>

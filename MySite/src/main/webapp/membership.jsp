@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%!
 	String key;
 %>
@@ -9,7 +9,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style>
 .wrap{
@@ -111,9 +111,9 @@
 			document.getElementById("submit_tel").value = document.getElementById("tel").value;
 			document.getElementById("submit_form").submit();
 		}else if(document.getElementById("pw").value != document.getElementById("pw_check").value){
-			alert("ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.")
+			alert("ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.")
 		}else if(document.getElementById("finalCheck").value != 1){
-			alert("¾ÆÀÌµğ Áßº¹Ã¼Å© ÇØ¶ó")
+			alert("ì•„ì´ë”” ì¤‘ë³µì²´í¬ í•´ë¼")
 		}
 	}
 	function id_check(){
@@ -122,10 +122,10 @@
 	}
 	function load(){
 		if("<%= key%>" == "id"){
-			alert("Áßº¹µÈ ¾ÆÀÌµğ°¡ ÀÖ½À´Ï´Ù.");
+			alert("ì¤‘ë³µëœ ì•„ì´ë””ê°€ ìˆìŠµë‹ˆë‹¤.");
 			document.getElementById("finalCheck").value = -1;
 		}else if("<%= key%>" == "ok"){
-			alert("»ç¿ë °¡´ÉÇÑ ¾ÆÀÌµğ ÀÔ´Ï´Ù.");
+			alert("ì‚¬ìš© ê°€ëŠ¥í•œ ì•„ì´ë”” ì…ë‹ˆë‹¤.");
 			document.getElementById("finalCheck").value = 1;
 		}
 	}
@@ -143,19 +143,19 @@
             </div>
             
             <div class="center_input">
-                    <h2 style="margin:5%;">È¸¿ø °¡ÀÔ</h2>
-                    <p>ÀÌ¸§     : <input type="text" name="nm" id="nm"><br><br>
-                        ID : <input type="text" name="id" id="id"> <button onclick="id_check();" id="checkBtn">Áßº¹È®ÀÎ</button><br><br>
+                    <h2 style="margin:5%;">íšŒì› ê°€ì…</h2>
+                    <p>ì´ë¦„     : <input type="text" name="nm" id="nm"><br><br>
+                        ID : <input type="text" name="id" id="id"> <button onclick="id_check();" id="checkBtn">ì¤‘ë³µí™•ì¸</button><br><br>
                         <form action="/MySite/myServlet" id="checkForm">
                         	<input type="hidden" id="checkId" name="checkId">
                         </form>
                         	
                         PW     : <input type="password" name="pw" id="pw"><br><br>
                         PW check     : <input type="password" name="pw_check" id="pw_check"><br><br>
-                        ÁÖ¼Ò     : <input type="text" name="addr" id="addr" size="80px"><br><br>
+                        ì£¼ì†Œ     : <input type="text" name="addr" id="addr" size="80px"><br><br>
                        
-                       ÀüÈ­¹øÈ£ : <input type="text" name="tel" id="tel" size="40px"><br><br>
-                        <button id="submit" onclick="submit();">°¡ÀÔ ¿Ï·á</button>
+                       ì „í™”ë²ˆí˜¸ : <input type="text" name="tel" id="tel" size="40px"><br><br>
+                        <button id="submit" onclick="submit();">ê°€ì… ì™„ë£Œ</button>
                         <input type="hidden" id="finalCheck">
                     </p>
                     <form action="/MySite/myServlet" method="post" id="submit_form">

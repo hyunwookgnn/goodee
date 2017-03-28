@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%!
+	String key;
+%>
+<%
+	key = request.getParameter("flag");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<%
-	//int flag = Integer.parseInt(request.getParameter("flag"));
-%>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
@@ -72,14 +75,14 @@
     		location.href="/MySite/membership.jsp";
     	}
     	
-//     	function onload(){
-<%--     		if(<%=flag%> == 0){ --%>
-//     			alert("아이디 비밀번호가 잘못되었습니다!!")
-//     		}
-//     	}
+    	function load(){
+    		if("<%=key%>" == "discord"){
+    			alert("아이디 비밀번호가 잘못되었습니다!!");
+    		}
+    	}
     </script>
 </head>
-<body>
+<body onload="load();">
         <div class="wrap">
             <h1>Title</h1>
             
@@ -93,8 +96,7 @@
             <div class="btn_grp">
                     <button onclick="goMembership();">회원가입</button>
                     <button onclick="login();">로그인</button>
-          
-        
+
         </div>
     </body>
 </html>

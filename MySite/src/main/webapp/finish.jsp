@@ -87,9 +87,9 @@
         }
 </style>
 <script type="text/javascript">
-	function goList(){
-		location.href="/MySite/list.jsp";
-	}
+function goList(){
+	location.href = "/MySite/list.jsp?key=refresh";
+}
 	function logout(i){
 		location.href = "/MySite/myServlet?logout="+i;
 	}

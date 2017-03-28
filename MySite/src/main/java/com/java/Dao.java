@@ -36,7 +36,7 @@ public class Dao {
          }
 		return list;
 	}
-	
+
 	public List<HashMap<String,Object>> selectCart(int searchNum){
 		List<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
 		SqlSession session = ssf.openSession();

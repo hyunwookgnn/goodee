@@ -24,9 +24,7 @@ public class myServlet extends HttpServlet {
 		String pw = request.getParameter("sendPw");
 		String id_check = request.getParameter("id_check");
 		request.setCharacterEncoding("UTF-8");
-		//request.setContentType("text/html; charset=UTF-8");
 		
-		//String textFlag = "";
 		String url = "";
 		Dao dao = new Dao();
 		
@@ -46,10 +44,9 @@ public class myServlet extends HttpServlet {
 					
 					break;
 				}else
-				{	
-					int flag = 0;
-					//url = "/MySite/index.jsp?flag="+flag;
-					url = "/MySite/index.jsp";
+				{
+					url = "/MySite/index.jsp?flag=discord";
+					//url = "/MySite/index.jsp";
 				}
 			}
 			
@@ -71,7 +68,7 @@ public class myServlet extends HttpServlet {
 		}else if(request.getParameter("send_cart_memNo") != null){
 			list = dao.selectCart(Integer.parseInt(request.getParameter("send_cart_memNo").toString()));
 			session.setAttribute("selectCart", list);
-			url = "/MySite/cart.jsp";
+			url = "/MySite/cart.jsp?key=refresh";
 		}else if(request.getParameter("insertInfo")!= null){
 			
 			map.put("name",request.getParameter("submit_name"));

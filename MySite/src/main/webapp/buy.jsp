@@ -133,7 +133,7 @@ function goCart(memberNo){
 	document.getElementById("send_cart_form").submit();
 }
 function goList(){
-	location.href = "/MySite/list.jsp";
+	location.href = "/MySite/list.jsp?key=refresh";
 }
 function insertBuy(memNo,itNo){
 	document.getElementById("order_name").value = document.getElementById("nm").value;

@@ -198,7 +198,7 @@
 		document.getElementById("send_cart_form").submit();
 	}
 	function goList(){
-		location.href = "/MySite/list.jsp";
+		location.href = "/MySite/list.jsp?key=refresh";
 	}
 	function logout(i){
 		location.href = "/MySite/myServlet?logout="+i;
@@ -235,15 +235,21 @@
             <%!
             	List<HashMap<String,Object>> list;
             	Dao dao;
+            	//String refresh;
             %>
            <div class="center">
             <%
+            	
             	dao = new Dao();
             	list = new ArrayList<HashMap<String,Object>>();
 //     			int itemNo = Integer.parseInt(request.getParameter("list_item_no"));
-            	if(session.getAttribute("searchList") != null){
+				if(request.getParameter("key") != null){
+            		list = dao.selectList();
+            	}            	
+				else if(session.getAttribute("searchList") != null){
             		list = (List<HashMap<String,Object>>)session.getAttribute("searchList");
-            	}else{
+            	}
+            	else{
             		list = dao.selectList();
             	}
             	
