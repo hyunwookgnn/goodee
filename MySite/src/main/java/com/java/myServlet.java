@@ -86,15 +86,17 @@ public class myServlet extends HttpServlet {
 		}else if(request.getParameter("delete_cartNo") != null){
 			dao.deleteCart(Integer.parseInt(request.getParameter("delete_cartNo")));
 			url = "/MySite/cart.jsp";
-		}else if(request.getParameter("id_check") != null){
+		}else if(request.getParameter("checkId") != null){
 			list = dao.idCheck();
+			String str = request.getParameter("checkId").toString();
+			//System.out.println(str);
 			for(int i = 0; i<list.size(); i++){
-				if(id_check.equals(list.get(i).get("id").toString())){
-					url = "/MySite/membership.jsp";
+				if(request.getParameter("checkId").toString().equals(list.get(i).get("id").toString())){
+					url = "/MySite/membership.jsp?key=id";
 					break;
 				}else
 				{	
-					url = "/MySite/membership.jsp";
+					url = "/MySite/membership.jsp?key=ok";
 				}
 			}
 		}else if(request.getParameter("order_index") != null){
